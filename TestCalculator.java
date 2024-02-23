@@ -1,74 +1,53 @@
 import java.util.Scanner;
 
-class TestCalculator {
+public class TestCalculator {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Input:");
         String input = scanner.nextLine();
 
         try {
             String result = calc(input);
-            System.out.println("Output:");
-            System.out.println(result);
+            System.out.println("Результат: " + result);
         } catch (Exception e) {
-            System.out.println("throws Exception");
+            System.out.println("Ошибка: " + e.getMessage());
         }
     }
 
-    static String calc(String input) throws Exception {
-        String[] tokens = input.split(" ");
+    public static String calc(String input) throws Exception {
+        String[] parts = input.split("\\s+");
 
-        if (tokens.length != 3) {
-            throw new Exception();
+        if (parts.length != 3) {
+            throw new Exception("throws Exception");
         }
 
-        int a, b;
+        int num1 = Integer.parseInt(parts[0]);
+        int num2 = Integer.parseInt(parts[2]);
 
-        try {
-            a = Integer.parseInt(tokens[0]);
-            b = Integer.parseInt(tokens[2]);
-        } catch (NumberFormatException e) {
-            throw new Exception();
+        if ((num1 < 1 || num1 > 10) || (num2 < 1 || num2 > 10)) {
+            throw new Exception("throws Exception.");
         }
-
-        char operator = tokens[1].charAt(0);
 
         int result;
-
-        switch (operator) {
-            case '+':
-                result = a + b;
+        switch (parts[1]) {
+            case "+":
+                result = num1 + num2;
                 break;
-            case '-':
-                result = a - b;
+            case "-":
+                result = num1 - num2;
                 break;
-            case '*':
-                result = a * b;
+            case "*":
+                result = num1 * num2;
                 break;
-            case '/':
-                if (b == 0) {
-                    throw new Exception();
-                }
-                result = a / b;
+            case "/":
+                // Результатом операции деления является целое число, остаток отбрасывается.
+                result = num1 / num2;
                 break;
             default:
-                throw new Exception();
+                throw new Exception("throws Exception " + parts[1]);
         }
 
-        return String.valueOf(result);
+        return Integer.toString(result);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
